@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+
+<h2>IQVIA Mini Project</h2>
+<p>Author: Aris David</p>
+<p>There's a background task running using Celery beat.
+It creates random contact data every 15 minutes and deletes contact data older than 1 minute.</p>
+
+{% endblock %}

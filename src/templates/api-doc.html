@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+
+
+<h2>API-Documentation</h2>
+
+<h4>Contact</h4>
+<ul>
+    <li>POST - /contact</li>
+    <li>GET - /contact</li>
+    <li>GET - /contact/{id}</li>
+    <li>PUT - /contact/{id}</li>
+    <li>DELETE - /contact/{id}</li>
+</ul>
+
+<hr>
+<h4>Sample JSON to create a new contact</h4>
+<pre>
+{"username": "therock", "firstName": "Dwayne", "lastName": "Johnson",
+    "emails": [
+      {
+        "email": "test_email1@outlook.com"
+      },
+      {
+        "email": "test_email2@outlook.com"
+      }
+    ]
+}
+
+</pre>
+<hr>
+<h4>Create</h4>
+<img src="{{url_for('static', filename='img/create-contact.png')}}" width="1000" height="800">
+
+<h4>READ</h4>
+<img src="{{url_for('static', filename='img/get-contact-by-id.png')}}" width="1000" height="800">
+<img src="{{url_for('static', filename='img/get-contacts.png')}}" width="1000" height="800">
+
+<h4>Update</h4>
+<img src="{{url_for('static', filename='img/update-contact-by-id.png')}}" width="1000" height="800">
+
+<h4>Delete</h4>
+<img src="{{url_for('static', filename='img/delete-contact-by-id.png')}}" width="1000" height="800">
+
+{% endblock %}

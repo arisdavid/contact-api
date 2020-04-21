@@ -1,0 +1,67 @@
+version: "3.7"
+
+services:
+
+  # Redis
+  redis:
+    image: 'redis:5.0.5'
+    container_name: 'redis_svcs'
+    command: redis-server --requirepass devpassword
+    volumes:
+      - 'redis:/var/lib/redis/data'
+    ports:
+      - '6379:6379'
+
+
+  # Flask_App
+  webapp:
+    build: .
+    container_name: 'webapp'
+    command: >
+      gunicorn -b 0.0.0.0:8000
+        --access-logfile -
+        --reload
+        "app_wsgi:flask_app"
+    env_file:
+      - '.env'
+    volumes:
+      - '.:/app'
+    depends_on:
+      - postgres
+    ports:
+      - '8000:8000'
+
+  # Postgres Database
+  postgres:
+    image: 'postgres:11.6'
+    container_name: 'postgres_svcs'
+    env_file:
+      - '.env'
+    volumes:
+      - 'postgres:/var/lib/postgresql/data'
+    ports:
+      - '5432:5432'
+
+  # Celery
+  celery:
+    build: .
+    container_name: 'celery_app'
+    command: celery worker -A app_wsgi.celery -B --loglevel=info --pool=solo
+    env_file:
+      - '.env'
+    volumes:
+      - '.:/app'
+
+  # Flower
+  flower:
+    image: mher/flower
+    container_name: 'flower_svcs'
+    environment:
+      - CELERY_BROKER_URL=redis://:devpassword@redis:6379/0
+      - FLOWER_PORT=5555
+    ports:
+      - '5555:5555'
+
+volumes:
+  postgres:
+  redis:
