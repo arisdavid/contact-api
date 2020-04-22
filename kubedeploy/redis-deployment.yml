@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: redis-deployment
+
+spec:
+ replicas: 1
+ selector:
+   matchLabels:
+    name: redis
+    function: broker
+ template:
+  metadata:
+   name: redis
+   labels:
+     name: redis
+     function: broker
+  spec:
+    containers:
+     - image: redis:5.0.9-alpine
+       name: redis
+       ports:
+        - containerPort: 6379
+       args:
+         - redis-server
+         - --requirepass
+         - devpassword
