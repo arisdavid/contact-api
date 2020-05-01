@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: celery-worker
+  labels:
+    deployment: celery-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pod: celery-worker
+  template:
+    metadata:
+      labels:
+        pod: celery-worker
+    spec:
+      containers:
+        - name: celery-worker
+          image: contact-api:latest
+          imagePullPolicy: Never
+          command: ["celery", "worker", "-A", "app_wsgi.celery", "-B", "--loglevel=info", "--pool=solo"]

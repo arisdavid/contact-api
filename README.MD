@@ -1,53 +1,78 @@
-## DEMO CELERY BEAT
+## REST API and GraphQL Demo Kubernetes Demo
 
-## Build and run docker containers
+## Introduction
+This is a kubernetes demo with flask and celery beat scheduling a task to populate a Postgres database periodically with mock contact data.
+The data is then exposed through REST endpoint as well as through GraphQL.
 
-Ensure in the root directory. Run all services in the background
+All running inside a Kubernetes cluster. 
 
+Core components:
+- Flask - Web App
+- Celery and Celery beat
+- Redis - Task queue
+- Postgres - Storing Data
+- GraphQL
+- REST - REST API
+
+## Instructions
+
+##### Start Minikube
+```
+minikube start
+```
+
+##### Config namespace context
+````
+kubectl config set-context $(kubectl config current-context) --namespace=<namespace>
+````
+
+#### Build the docker image
 
 ```
-docker-compose up --build -d
+make build
 ```
 
-
-## Connect to postgres
-### Connect
+##### Install 
 ```
-docker exec -it postgres_svcs psql -U dev postgres
+make install
 ```
 
-### Switch to contact_management_db
+#### GraphQL Query
+
+`http://minikube_ip:30008/graphql`
+
 ```
-\c contact_management_db
+query {
+      contacts {
+        username,
+        emails{
+          email
+        }
+      }
+    }
 ```
 
-### List all tables
+#### REST API
+`http://minikube_ip:30008/contact`
+
+
+
+## Connect to PostgreSQL
+```
+psql -h <minikube_ip> -p 30080 -U admin -d contact_db
+```
+
+##### List all tables
 ```
 \dt
 ```
 
-### Select * from contact;
+##### Select * from contact;
 ```
 select * from contact;
 ```
 
-
-### Terminal Sample Commands
 ```
-
-docker exec -it postgres_svcs psql -U dev postgres
-psql (11.6 (Debian 11.6-1.pgdg90+1))
-Type "help" for help.
-
-postgres=# \c contact_management_db
-You are now connected to database "contact_management_db" as user "dev".
-contact_management_db=# \dt
-        List of relations
- Schema |  Name   | Type  | Owner
---------+---------+-------+-------
- public | contact | table | dev
- public | email   | table | dev
-(2 rows)
 
 contact_management_db=# select * from contact;
  id  |   username   | first_name | last_name |        date_created

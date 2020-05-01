@@ -1,13 +1,15 @@
-from flask import Flask
 from celery import Celery
-from src.celery_task_registry import CELERY_TASK_LIST
+from flask import Flask
+from flask_graphql import GraphQLView
+from src.blueprints.api.schema import schema
+from src.blueprints.api.views import api
 
 # Blueprints
 from src.blueprints.pages.views import page
-from src.blueprints.api.views import api
+from src.celery_task_registry import CELERY_TASK_LIST
 
 # Extensions
-from src.extensions import (db, marshmallow)
+from src.extensions import db, marshmallow
 
 
 def make_celery(app=None):
@@ -17,8 +19,11 @@ def make_celery(app=None):
     :return: celery
     """
 
-    celery = Celery(app.import_name, broker=app.config['CELERY_BROKER_URL'],
-                    include=CELERY_TASK_LIST)
+    celery = Celery(
+        app.import_name,
+        broker=app.config["CELERY_BROKER_URL"],
+        include=CELERY_TASK_LIST,
+    )
 
     celery.conf.update(app.config)
     task_base = celery.Task
@@ -44,14 +49,20 @@ def create_app(settings_override=None):
 
     app = Flask(__name__, instance_relative_config=True)
 
-    app.config.from_object('config.settings')
-    app.config.from_pyfile('settings.py', silent=True)
+    app.config.from_object("config.settings")
+    app.config.from_pyfile("settings.py", silent=True)
 
     if settings_override:
         app.config.update(settings_override)
 
     app.register_blueprint(page)
     app.register_blueprint(api)
+
+    # GraphQL
+    app.add_url_rule(
+        "/graphql",
+        view_func=GraphQLView.as_view("graphql", schema=schema, graphiql=True),
+    )
 
     # Mutate the flask app
     apply_extensions(app)

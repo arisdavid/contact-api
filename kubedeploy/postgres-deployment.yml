@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: postgres-deployment
+
+spec:
+ replicas: 1
+ selector:
+   matchLabels:
+    name: postgres
+    function: db
+ template:
+  metadata:
+   name: postgres
+   labels:
+     name: postgres
+     function: db
+  spec:
+    containers:
+     - image: postgres:12.2-alpine
+       name: postgres
+       ports:
+        - containerPort: 5432
+       env:
+        - name: POSTGRES_USER
+          valueFrom:
+           secretKeyRef:
+             name: contact-api-secret
+             key: pg_username
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+           secretKeyRef:
+            name: contact-api-secret
+            key: pg_password
+        - name: POSTGRES_DB
+          valueFrom:
+           secretKeyRef:
+            name: contact-api-secret
+            key: pg_database 

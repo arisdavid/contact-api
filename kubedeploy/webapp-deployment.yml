@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-deployment
+  labels:
+    name: webapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: webapp
+      function: api
+  template:
+    metadata:
+      name: webapp
+      labels:
+        name: webapp
+        function: api
+    spec:
+      containers:
+       - image: contact-api:latest
+         name: webapp
+         imagePullPolicy: Never
+         ports:
+          - containerPort: 8000
