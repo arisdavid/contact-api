@@ -7,10 +7,8 @@ DEBUG = True
 SECRET_KEY = os.urandom(24)
 
 # Celery Config
-CELERY_BROKER_URL = f"redis://:devpassword@redis-service.rqmp.svc.cluster.local:6379/0"
-CELERY_RESULT_BACKEND = (
-    f"redis://:devpassword@redis-service.rqmp.svc.cluster.local:6379/0"
-)
+CELERY_BROKER_URL = f"redis://:devpassword@redis-service:6379/0"
+CELERY_RESULT_BACKEND = f"redis://:devpassword@redis-service:6379/0"
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
@@ -30,6 +28,6 @@ CELERYBEAT_SCHEDULE = {
     },
 }
 
-db_uri = f"postgresql://admin:admin123@postgres-service.rqmp.svc.cluster.local:5432/contact_db"
+db_uri = f"postgresql://admin:admin123@postgres-service:5432/contact_db"
 SQLALCHEMY_DATABASE_URI = db_uri
 SQLALCHEMY_TRACK_MODIFICATIONS = False
