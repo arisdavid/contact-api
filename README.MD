@@ -1,53 +1,64 @@
-## DEMO CELERY BEAT
+## REST API and GraphQL Demo Kubernetes Demo
 
-## Build and run docker containers
+## Instructions
 
-Ensure in the root directory. Run all services in the background
-
-
+##### Start Minikube
 ```
-docker-compose up --build -d
+minikube start
 ```
 
+##### Config namespace context
+````
+kubectl config set-context $(kubectl config current-context) --namespace=<namespace>
+````
 
-## Connect to postgres
-### Connect
+#### Build the docker image
+
 ```
-docker exec -it postgres_svcs psql -U dev postgres
+make build
 ```
 
-### Switch to contact_management_db
+##### Install 
 ```
-\c contact_management_db
+make install
 ```
 
-### List all tables
+#### GraphQL Query
+
+`http://minikube_ip:30008/graphql`
+
+```
+query {
+      contacts {
+        username,
+        emails{
+          email
+        }
+      }
+    }
+```
+
+#### REST API
+`http://minikube_ip:30008/contact`
+
+
+
+##### Connect to postgreSQL
+```
+psql -h <minikube_ip> -p 30080 -U admin -d contact_db
+```
+
+##### List all tables
 ```
 \dt
 ```
 
-### Select * from contact;
+##### Select * from contact;
 ```
 select * from contact;
 ```
 
-
-### Terminal Sample Commands
 ```
-
-docker exec -it postgres_svcs psql -U dev postgres
-psql (11.6 (Debian 11.6-1.pgdg90+1))
-Type "help" for help.
-
-postgres=# \c contact_management_db
-You are now connected to database "contact_management_db" as user "dev".
-contact_management_db=# \dt
-        List of relations
- Schema |  Name   | Type  | Owner
---------+---------+-------+-------
- public | contact | table | dev
- public | email   | table | dev
-(2 rows)
 
 contact_management_db=# select * from contact;
  id  |   username   | first_name | last_name |        date_created
