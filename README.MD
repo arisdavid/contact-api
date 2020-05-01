@@ -51,12 +51,12 @@ query {
       }
     }
 ```
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+![GraphQL](https://github.com/arisdavid/graphql-contacts/blob/master/src/static/img/graphql.PNG)
 
 #### REST API
 `http://minikube_ip:30008/contact`
 
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+![RESTAPI](https://github.com/arisdavid/graphql-contacts/blob/master/src/static/img/rest.PNG)
 
 
 ## Connect to PostgreSQL
