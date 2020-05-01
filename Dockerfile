@@ -10,8 +10,6 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-RUN ["chmod", "+x", "./start_celery.sh"]
-
 CMD gunicorn -b 0.0.0.0:8000 --access-logfile - "app_wsgi:app"
 
 

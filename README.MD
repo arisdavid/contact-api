@@ -51,10 +51,12 @@ query {
       }
     }
 ```
+![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
 
 #### REST API
 `http://minikube_ip:30008/contact`
 
+![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
 
 
 ## Connect to PostgreSQL
