@@ -1,5 +1,19 @@
 ## REST API and GraphQL Demo Kubernetes Demo
 
+## Introduction
+This is a kubernetes demo with flask and celery beat scheduling a task to populate a Postgres database periodically with mock contact data.
+The data is then exposed through REST endpoint as well as through GraphQL.
+
+All running inside a Kubernetes cluster. 
+
+Core components:
+- Flask - Web App
+- Celery and Celery beat
+- Redis - Task queue
+- Postgres - Storing Data
+- GraphQL
+- REST - REST API
+
 ## Instructions
 
 ##### Start Minikube
@@ -43,7 +57,7 @@ query {
 
 
 
-##### Connect to postgreSQL
+## Connect to PostgreSQL
 ```
 psql -h <minikube_ip> -p 30080 -U admin -d contact_db
 ```
