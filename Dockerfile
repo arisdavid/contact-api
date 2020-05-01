@@ -1,4 +1,4 @@
-FROM python:3.7
+FROM python:3.7-slim
 
 ENV INSTALL_PATH /app
 RUN mkdir -p $INSTALL_PATH
