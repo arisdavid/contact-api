@@ -12,7 +12,7 @@ install:
 	kubectl apply -f kubedeploy/celery-worker.yml
 
 uninstall:
-	kubectl delete secrets contact-api-secret 
+	kubectl delete secrets contact-api-secret
 	kubectl delete services postgres-service 
 	kubectl delete services redis-service 
 	kubectl delete services webapp-service 
