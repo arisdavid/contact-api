@@ -1,4 +1,4 @@
-## REST API and GraphQL Demo Kubernetes Demo
+## REST API and GraphQL Kubernetes Demo
 
 ## Introduction
 This is a kubernetes demo with flask and celery beat scheduling a task to populate a Postgres database periodically with mock contact data.
