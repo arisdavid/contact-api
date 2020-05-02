@@ -41,16 +41,42 @@ make install
 
 `http://minikube_ip:30008/graphql`
 
+Query All
 ```
-query {
-      contacts {
-        username,
-        emails{
+{
+  contacts{
+    id,
+    username,
+    firstName,
+    lastName,
+    emails{
+      edges{
+        node{
           email
         }
       }
     }
+  }
+}
+
 ```
+Query by ID
+```
+{
+  contact(id:"Q29udGFjdDoy"){
+    id,
+    username,
+    emails{
+      edges{
+        node{
+          email
+        }
+      }
+    }
+  }
+}
+```
+
 ![GraphQL](https://github.com/arisdavid/graphql-contacts/blob/master/src/static/img/graphql.PNG)
 
 #### REST API
